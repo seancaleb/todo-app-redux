@@ -1,5 +1,8 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTodo, updateTodo } from "../../features/todos/todosSlice";
 import { inputProps } from "../../themes/styles";
 
 const flexWrapperProps = {
@@ -42,17 +45,37 @@ const buttonProps = {
 };
 
 const EditTask = () => {
+  const { taskId } = useParams();
+  const navigate = useNavigate();
+  const todo = useSelector((state) => selectTodo(state, taskId));
+  const dispatch = useDispatch();
+  const [newTask, setNewTask] = useState(null);
+
+  const handleClickUpdate = () => {
+    dispatch(updateTodo(newTask, taskId));
+    setNewTask("");
+    navigate("/");
+  };
+
   return (
     <Flex {...flexWrapperProps}>
       <Flex {...flexTitleWrapperProps}>
         <Heading {...headingProps}>Edit Task</Heading>
-        <Text {...textProps}>Task ID: as214k9sd789124j9asd</Text>
+        <Text {...textProps}>Task ID: {taskId}</Text>
       </Flex>
       <Flex {...inputWrapperProps}>
-        <Input placeholder="Your current task" {...inputProps} />
+        <Input
+          {...inputProps}
+          value={newTask || todo.todo}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
         <Flex {...buttonWrapperProps}>
-          <Button {...buttonProps}>Update</Button>
-          <Button {...buttonProps}>Cancel</Button>
+          <Button {...buttonProps} onClick={handleClickUpdate}>
+            Update
+          </Button>
+          <Button {...buttonProps} onClick={() => navigate("/")}>
+            Cancel
+          </Button>
         </Flex>
       </Flex>
     </Flex>

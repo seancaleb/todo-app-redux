@@ -1,6 +1,8 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Card } from "./";
+import { useSelector } from "react-redux";
+import { selectTodosByStatus } from "../../features/todos/todosSlice";
 
 const contentWrapperProps = {
   flexDir: "column",
@@ -8,7 +10,7 @@ const contentWrapperProps = {
 };
 
 const headingProps = {
-  fontWeight: "medium",
+  fontWeight: "semibold",
   color: "brand.primary",
   fontSize: { base: "30px", md: "36px" },
 };
@@ -19,25 +21,44 @@ const textWrapperProps = {
 };
 
 const textProps = {
-  fontSize: "14px",
+  fontSize: "12px",
+  fontWeight: "semibold",
   color: "brand.text.light",
 };
 
 const circleProps = {
   w: "10px",
   h: "10px",
-  bg: "brand.complete.main",
   borderRadius: "50%",
 };
 
-const Status = () => {
+const Status = ({ status }) => {
+  let color;
+  const filteredStatus = useSelector((state) =>
+    selectTodosByStatus(state, status)
+  );
+
+  switch (status) {
+    case "pending":
+      color = "red";
+      break;
+    case "in progress":
+      color = "orange";
+      break;
+    case "completed":
+      color = "green";
+      break;
+    default:
+      break;
+  }
+
   return (
     <Card>
       <Flex {...contentWrapperProps}>
-        <Heading {...headingProps}>0</Heading>
+        <Heading {...headingProps}>{filteredStatus.length}</Heading>
         <Flex {...textWrapperProps}>
-          <Text {...textProps}>Tasks Remaining</Text>
-          <Box {...circleProps} />
+          <Text {...textProps}>{status.toUpperCase()} TASKS</Text>
+          <Box {...circleProps} bg={color} />
         </Flex>
       </Flex>
     </Card>

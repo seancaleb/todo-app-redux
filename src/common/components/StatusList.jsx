@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import { Status } from "./";
+import { nanoid } from "@reduxjs/toolkit";
 
-const data = [1, 2, 3];
+const statusList = ["pending", "in progress", "completed"];
 
 const flexProps = {
   flexDir: "column",
@@ -12,7 +13,9 @@ const flexProps = {
 const StatusList = () => {
   let renderStatusList;
 
-  renderStatusList = data.map((item) => <Status key={item} />);
+  renderStatusList = statusList.map((status) => (
+    <Status key={nanoid()} status={status} />
+  ));
 
   return <Flex {...flexProps}>{renderStatusList}</Flex>;
 };

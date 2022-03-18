@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Flex, Input, ScaleFade } from "@chakra-ui/react";
 import { inputProps } from "../../themes/styles";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../features/todos/todosSlice";
 
 const flexWrapperProps = {
   flexDir: { base: "column", lg: "row" },
@@ -10,11 +12,31 @@ const flexWrapperProps = {
 };
 
 const AddTask = ({ isOpen }) => {
+  const [task, setTask] = useState(null);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    if (task === null || task === "") {
+      console.log(task);
+      return;
+    } else {
+      dispatch(addTodo(task));
+      setTask("");
+    }
+  };
+
+  console.log(task);
   return (
     <ScaleFade in={isOpen} initialScale={0.9}>
       <Flex {...flexWrapperProps}>
-        <Input placeholder="Add new task..." {...inputProps} />
-        <Button>Add task</Button>
+        <Input
+          placeholder="Add new task..."
+          {...inputProps}
+          value={task || ""}
+          onChange={(e) => setTask(e.target.value)}
+          isRequired
+        />
+        <Button onClick={handleClick}>Add task</Button>
       </Flex>
     </ScaleFade>
   );

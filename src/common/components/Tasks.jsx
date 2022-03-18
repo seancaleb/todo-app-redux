@@ -2,6 +2,7 @@ import React from "react";
 import {
   Badge,
   Box,
+  Text,
   Flex,
   Heading,
   Table,
@@ -11,7 +12,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { nanoid } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { selectTodos } from "../../features/todos/todosSlice";
 import MenuFilter from "./MenuFilter";
 
 const wrapperProps = {
@@ -35,24 +37,44 @@ const tableWrapperProps = {
 const trProps = { bg: "brand.light" };
 const thProps = { color: "brand.primary" };
 
-const data = Array(2).fill("");
-
 const Tasks = () => {
-  let tasks = data.map((item, index) => {
-    const color = index % 2 === 0 ? "white" : "brand.light";
+  const todos = useSelector(selectTodos);
+  let tasks;
 
-    return (
-      <Tr key={nanoid()} bg={color}>
-        <Td>This is todo {index}</Td>
-        <Td>
-          <Badge colorScheme="red">Pending</Badge>
-        </Td>
-        <Td isNumeric>
-          <MenuFilter />
-        </Td>
-      </Tr>
-    );
-  });
+  if (todos) {
+    tasks = todos.map((todo, index) => {
+      const rowColor = index % 2 === 0 ? "white" : "brand.light";
+      let color;
+
+      switch (todo.status) {
+        case "pending":
+          color = "red";
+          break;
+        case "in progress":
+          color = "orange";
+          break;
+        case "completed":
+          color = "green";
+          break;
+        default:
+          break;
+      }
+
+      return (
+        <Tr key={todo.id} bg={rowColor}>
+          <Td minW={{ base: "150px", lg: "250px" }}>{todo.todo}</Td>
+          <Td w="150px">
+            <Badge colorScheme={color}>{todo.status}</Badge>
+          </Td>
+          <Td isNumeric>
+            <MenuFilter id={todo.id} />
+          </Td>
+        </Tr>
+      );
+    });
+  } else {
+    tasks = <Text>No Todos at the moment.</Text>;
+  }
 
   return (
     <Flex {...wrapperProps}>
