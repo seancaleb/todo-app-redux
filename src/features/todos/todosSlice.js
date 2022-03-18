@@ -1,5 +1,4 @@
-// import { createSlice, nanoid } from "@reduxjs/toolkit";
-const { createSlice, nanoid } = require("@reduxjs/toolkit");
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = [];
 const DEFAULT_STATUS = "pending";
@@ -65,5 +64,3 @@ export const selectTodos = (state) => state.todos;
 export const selectTodo = (state, id) => state.find((todo) => todo.id === id);
 
 export default todosSlice.reducer;
-
-console.log(todosSlice);
