@@ -1,10 +1,10 @@
 const Button = {
   baseStyle: {
     borderRadius: "6px",
-    _hover: {},
+    _hover: { opacity: 0.9 },
     _active: {
       boxShadow: "none",
-      opacity: 0.9,
+      opacity: 0.95,
     },
     _focus: {
       boxShadow: "none",
@@ -14,7 +14,7 @@ const Button = {
   sizes: {
     sm: {
       h: "40px",
-      px: "24px",
+      px: "22px",
       py: "18px",
     },
   },
@@ -22,12 +22,12 @@ const Button = {
   variants: {
     solid: {
       _hover: {
-        bgGradient: "linear(to-br, brand.primary, brand.secondary)",
+        bgGradient: "linear(to-r, brand.primary, brand.secondary)",
       },
       _active: {
-        bgGradient: "linear(to-br, brand.primary, brand.secondary)",
+        bgGradient: "linear(to-r, brand.primary, brand.secondary)",
       },
-      bgGradient: "linear(to-br, brand.primary, brand.secondary)",
+      bgGradient: "linear(to-r, brand.primary, brand.secondary)",
       color: "white",
     },
   },

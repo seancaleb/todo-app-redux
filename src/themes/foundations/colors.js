@@ -1,7 +1,7 @@
 const colors = {
   brand: {
     primary: "#4B0082",
-    secondary: "#452C63",
+    secondary: "#390063",
     light: "#fafafa",
     text: {
       light: "#777",
@@ -11,7 +11,7 @@ const colors = {
       main: "#008000",
       alpha: "rgba(0,211,0,.25)",
     },
-    idle: {
+    pending: {
       main: "#800000",
       alpha: "rgba(211,0,0,0.25)",
     },

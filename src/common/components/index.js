@@ -1,0 +1,9 @@
+export { default as Main } from "./Main.jsx";
+export { default as Card } from "./Card.jsx";
+export { default as Status } from "./Status.jsx";
+export { default as StatusList } from "./StatusList.jsx";
+export { default as Title } from "./Title.jsx";
+export { default as AddTask } from "./AddTask.jsx";
+export { default as Tasks } from "./Tasks.jsx";
+export { default as MenuFilter } from "./MenuFilter.jsx";
+export { default as EditTask } from "./EditTask.jsx";
