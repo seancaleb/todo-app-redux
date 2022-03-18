@@ -12,16 +12,20 @@ const options = {
         state.push(action.payload);
       },
       prepare: (todo) => {
-        const id = nanoid();
-        const status = DEFAULT_STATUS;
+        if (todo === null) {
+          throw new Error("Value cannot be empty.");
+        } else {
+          const id = nanoid();
+          const status = DEFAULT_STATUS;
 
-        return {
-          payload: {
-            id,
-            todo,
-            status,
-          },
-        };
+          return {
+            payload: {
+              id,
+              todo,
+              status,
+            },
+          };
+        }
       },
     },
 
@@ -61,6 +65,9 @@ export const { addTodo, deleteTodo, updateTodo, updateTodoStatus } =
 
 // SELECTORS
 export const selectTodos = (state) => state.todos;
-export const selectTodo = (state, id) => state.find((todo) => todo.id === id);
+export const selectTodo = (state, id) =>
+  state.todos.find((todo) => todo.id === id);
+export const selectTodosByStatus = (state, status) =>
+  state.todos.filter((todo) => todo.status === status);
 
 export default todosSlice.reducer;
