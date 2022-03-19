@@ -4,8 +4,8 @@ import { format } from "date-fns";
 import React from "react";
 
 const wrapperProps = {
-  px: { base: "none", sm: "25px" },
-  py: "25px",
+  px: { base: "none", sm: "20px" },
+  py: "20px",
   justifyContent: "space-between",
   alignItems: "center",
   border: "none",

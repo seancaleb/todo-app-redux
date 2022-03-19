@@ -30,11 +30,9 @@ const AddTask = ({ isOpen }) => {
     <ScaleFade in={isOpen} initialScale={0.9}>
       <Flex {...flexWrapperProps}>
         <Input
-          placeholder="Add new task..."
           {...inputProps}
           value={task || ""}
           onChange={(e) => setTask(e.target.value)}
-          isRequired
         />
         <Button onClick={handleClick}>Add task</Button>
       </Flex>

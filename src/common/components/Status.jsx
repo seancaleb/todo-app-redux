@@ -12,17 +12,17 @@ const contentWrapperProps = {
 const headingProps = {
   fontWeight: "semibold",
   color: "brand.primary",
-  fontSize: { base: "30px", md: "36px" },
+  fontSize: "30px",
 };
 
 const textWrapperProps = {
   alignItems: "center",
-  gap: "10px",
+  gap: "8px",
 };
 
 const textProps = {
-  fontSize: "12px",
-  fontWeight: "semibold",
+  fontSize: "14px",
+  textTransform: "capitalize",
   color: "brand.text.light",
 };
 
@@ -57,7 +57,7 @@ const Status = ({ status }) => {
       <Flex {...contentWrapperProps}>
         <Heading {...headingProps}>{filteredStatus.length}</Heading>
         <Flex {...textWrapperProps}>
-          <Text {...textProps}>{status.toUpperCase()} TASKS</Text>
+          <Text {...textProps}>{status}</Text>
           <Box {...circleProps} bg={color} />
         </Flex>
       </Flex>

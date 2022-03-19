@@ -4,7 +4,7 @@ const colors = {
     secondary: "#390063",
     light: "#fafafa",
     text: {
-      light: "#777",
+      light: "#555",
       dark: "#222",
     },
     complete: {

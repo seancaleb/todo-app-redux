@@ -26,22 +26,29 @@ const headingWrapperProps = {
 
 const headingProps = {
   fontSize: "24px",
-  color: "brand.primary",
+  bgGradient: "linear-gradient(to-br, brand.primary, brand.secondary)",
+  bgClip: "text",
+  letterSpacing: "-.5px",
 };
 
 const tableWrapperProps = {
   h: "480px",
   overflow: "auto",
+  position: "relative",
 };
 
 const trProps = { bg: "brand.light" };
-const thProps = { color: "brand.primary" };
+const thProps = {
+  bgGradient: "linear-gradient(to-br, brand.primary, brand.secondary)",
+  bgClip: "text",
+  letterSpacing: "-.5px",
+};
 
 const Tasks = () => {
   const todos = useSelector(selectTodos);
   let tasks;
 
-  if (todos) {
+  if (todos.length > 0) {
     tasks = todos.map((todo, index) => {
       const rowColor = index % 2 === 0 ? "white" : "brand.light";
       let color;
@@ -62,9 +69,17 @@ const Tasks = () => {
 
       return (
         <Tr key={todo.id} bg={rowColor}>
-          <Td minW={{ base: "150px", lg: "250px" }}>{todo.todo}</Td>
+          <Td
+            minW={{ base: "150px", lg: "250px" }}
+            letterSpacing="-.5px"
+            color="brand.text.dark"
+          >
+            {todo.todo}
+          </Td>
           <Td w="150px">
-            <Badge colorScheme={color}>{todo.status}</Badge>
+            <Badge colorScheme={color} letterSpacing="-.5px">
+              {todo.status}
+            </Badge>
           </Td>
           <Td isNumeric>
             <MenuFilter id={todo.id} />
@@ -73,7 +88,17 @@ const Tasks = () => {
       );
     });
   } else {
-    tasks = <Text>No Todos at the moment.</Text>;
+    tasks = (
+      <Text
+        position="absolute"
+        top="50%"
+        transform="translateY(-50%)"
+        width="100%"
+        textAlign="center"
+      >
+        No tasks at the moment.
+      </Text>
+    );
   }
 
   return (
@@ -82,16 +107,19 @@ const Tasks = () => {
         <Heading {...headingProps}>All Tasks</Heading>
       </Flex>
       <Box {...tableWrapperProps}>
-        <Table variant="simple">
-          <Thead>
-            <Tr {...trProps}>
-              <Th {...thProps}>Title</Th>
-              <Th {...thProps}>Status</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>{tasks}</Tbody>
-        </Table>
+        {todos.length > 0 && (
+          <Table variant="simple">
+            <Thead>
+              <Tr {...trProps}>
+                <Th {...thProps}>Title</Th>
+                <Th {...thProps}>Status</Th>
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody>{tasks}</Tbody>
+          </Table>
+        )}
+        {todos.length === 0 && tasks}
       </Box>
     </Flex>
   );

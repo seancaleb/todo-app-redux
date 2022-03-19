@@ -21,7 +21,9 @@ const flexTitleWrapperProps = {
 
 const headingProps = {
   fontSize: "24px",
-  color: "brand.primary",
+  bgGradient: "linear-gradient(to-br, brand.primary, brand.secondary)",
+  bgClip: "text",
+  letterSpacing: "-.5px",
 };
 
 const textProps = {

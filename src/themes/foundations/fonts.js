@@ -1,6 +1,6 @@
 const fonts = {
-  heading: `Manrope, sans-serif`,
-  body: `Manrope, sans-serif`,
+  heading: `Public Sans, sans-serif`,
+  body: `Public Sans, sans-serif`,
 };
 
 export default fonts;
