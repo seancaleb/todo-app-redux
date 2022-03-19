@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Flex, Input, ScaleFade } from "@chakra-ui/react";
 import { inputProps } from "../../themes/styles";
 import { useDispatch } from "react-redux";
@@ -14,27 +14,42 @@ const flexWrapperProps = {
 const AddTask = ({ isOpen }) => {
   const [task, setTask] = useState(null);
   const dispatch = useDispatch();
+  const inputRef = useRef();
+  const [isError, setIsError] = useState(false);
 
-  const handleClick = () => {
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (task === null || task === "") {
-      console.log(task);
+      setIsError(true);
+      inputRef.current.focus();
+
       return;
     } else {
+      setIsError(false);
       dispatch(addTodo(task));
       setTask("");
     }
   };
 
-  console.log(task);
   return (
     <ScaleFade in={isOpen} initialScale={0.9}>
-      <Flex {...flexWrapperProps}>
+      <Flex as="form" {...flexWrapperProps} onSubmit={handleSubmit}>
         <Input
           {...inputProps}
           value={task || ""}
           onChange={(e) => setTask(e.target.value)}
+          ref={inputRef}
+          borderBottomColor={isError && "crimson"}
+          _focus={{ borderBottomColor: isError ? "crimson" : "brand.primary" }}
+          _hover={{ borderBottomColor: isError ? "crimson" : "brand.primary" }}
         />
-        <Button onClick={handleClick}>Add task</Button>
+        <Button type="submit" onClick={handleSubmit}>
+          Add task
+        </Button>
       </Flex>
     </ScaleFade>
   );

@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTodo, updateTodo } from "../../features/todos/todosSlice";
@@ -52,11 +52,25 @@ const EditTask = () => {
   const todo = useSelector((state) => selectTodo(state, taskId));
   const dispatch = useDispatch();
   const [newTask, setNewTask] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const inputRef = useRef();
 
-  const handleClickUpdate = () => {
-    dispatch(updateTodo(newTask, taskId));
-    setNewTask("");
-    navigate("/");
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newTask === null || newTask === "") {
+      setIsError(true);
+      inputRef.current.focus();
+      return;
+    } else {
+      setIsError(false);
+      dispatch(updateTodo(newTask, taskId));
+      setNewTask("");
+      navigate("/");
+    }
   };
 
   return (
@@ -65,14 +79,18 @@ const EditTask = () => {
         <Heading {...headingProps}>Edit Task</Heading>
         <Text {...textProps}>Task ID: {taskId}</Text>
       </Flex>
-      <Flex {...inputWrapperProps}>
+      <Flex as="form" {...inputWrapperProps} onSubmit={handleSubmit}>
         <Input
           {...inputProps}
-          value={newTask || todo.todo}
+          value={newTask === null ? todo.todo : newTask}
           onChange={(e) => setNewTask(e.target.value)}
+          ref={inputRef}
+          borderBottomColor={isError && "crimson"}
+          _focus={{ borderBottomColor: isError ? "crimson" : "brand.primary" }}
+          _hover={{ borderBottomColor: isError ? "crimson" : "brand.primary" }}
         />
         <Flex {...buttonWrapperProps}>
-          <Button {...buttonProps} onClick={handleClickUpdate}>
+          <Button type="submit" {...buttonProps} onClick={handleSubmit}>
             Update
           </Button>
           <Button {...buttonProps} onClick={() => navigate("/")}>

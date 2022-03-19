@@ -29,8 +29,6 @@ const MenuFilter = ({ id }) => {
   const todo = useSelector((state) => selectTodo(state, id));
   const { status } = todo;
 
-  console.log(todo);
-
   const handleClickEdit = () => {
     navigate(`/${id}`);
   };
